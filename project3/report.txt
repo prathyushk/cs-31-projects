@@ -1,0 +1,113 @@
+a.
+One obstacle was extracting integers from the route string and converting them to integers in the code. First I used C strings and the atoi function but then I changed it to subtracting '0' from the character to get an int of the number because that is what we learned in class. Another obstacle was formed because I kept making mistakes with the substring and incrementing while extracting the integers from the route string.
+
+b.
+isRouteWellFormed iterates through the input string and performs a series of checks
+
+PSEUDOCODE
+-------------------------
+repeatedly:
+	checks if the current character in 'route' is part of the alphabet:
+	       checks if the lowercased character is one of the valid direction identifiers:
+	       	      if not, return false
+	checks if the current character in 'route' is a digit instead:
+	       checks if the digit is the first character in the 'route', this is invalid
+	       finds a substring of the string that is length 3(unless it hits the end of the string)
+	       checks if the substring is actually three characters long and if all three of them are digits, if so the input is invalid
+	or else the character is neither part of the alphabet or a digit, so it is invalid
+
+the program was able to iterate through the whole string without finding a problem so the input is valid, return true
+-------------------------
+
+navigateSegment first finds the direction it needs to travel in as a unit vector in terms of rows and columns and counts the number of steps it can move in that direction before hitting a wall or the edge
+
+PSEUDOCODE
+-------------------------
+first convert the direction to lowercase to make checking easier
+checks if the given arguments for the function are valid
+finds the unit vector to add to the position to get the position after the movement in 'dir'
+adds the unit vector once to move focus to the adjacent cell in 'dir'
+repeatedly check if the focused cell is valid and empty and if it still has taken less steps than the max:
+	   if it is inside that means a step in the direction 'dir' can be taken
+	   increments the integer to keep track of steps and updates the position using the unit vector
+returns the number of steps it was possible to take
+-------------------------
+
+navigateRoute essentially puts the previous two functions together and simulates stepping through the input route
+
+PSEUDOCODE
+-------------------------
+first check if all the arguments are valid, if not return 2
+set the integer that tracks number of steps to 0
+iterate through the 'route' string:
+	check if there is a character to the right of the currently focused character and if it is a digit:
+	      check if there is a character two to the right of the currently focused character and check if its a digit:
+	      	    the number of steps is a two digit number, extract the number from the string and convert it to an integer
+		    move the iterator up 3 values to get to the next direction identifier
+	      or else, the number of steps is a single digit number
+	      	    extract the number of steps from the string and convert it to an integer
+		    move the iterator up 2 values, to the next direction identifier
+        or else, there is no integer given for the current direction identifier so default to 1 step and move iterator up one value to the next direction identifier
+	for the current direction segment, see how many steps can be taken in that direction up to the given number of steps determined above
+	adds the number of steps that can be taken to the running total of steps taken
+	finds the unit vector for the direction that the program is told to step in
+	scales the unit vector by the number of steps that can be taken and adds it to the current position
+	checks if the program was able to take as many steps as was dictated by the route, if not return 3
+
+the route has been fully followed
+check if the final position is equal to the given end point, if they are equal return 0 or else return 1
+-------------------------
+
+findDirMovement finds a unit vector(radd,cadd) in the direction 'dir'
+
+PSEUDOCODE
+-------------------------
+first set the vector to (0,0) to modify later
+if the direction is 'n':
+   set the vector to (-1,0) which is subtracting one row
+if the direction is 's':
+   set the vector to (1,0) which is adding one row
+if the direction is 'e':
+   set the vector to (0,1) which is adding one column
+if the direction is 'w'
+   set the vector to (0,-1) which is subtracting one column
+-------------------------
+
+isInside checks if the given (r,c) is within the bounds of the grid
+
+PSEUDOCODE
+-------------------------
+if the row is between 0 and the row size of the grid and the column is between 0 and the column size of the grid, return true
+or else, return false
+-------------------------
+
+c.
+first create test grid
+setSize(3,4);
+setWall(1,4);
+setWall(2,2);
+setWall(3,2);
+assert(isRouteWellFormed("n2e1"));-valid input should extract two segments n2, e1
+assert(isRouteWellFormed("N2eE01n0e2e1w1W1s1S1"));-valid input should extract the segments N2,e,E01,n0,e2,e1,w1,W1,s1,S1
+assert(isRouteWellFormed("W42"));-valid input should extract W42
+assert(!isRouteWellFormed("3sn"));-invalid input. Should fail because route segment must begin with a direction
+assert(!isRouteWellFormed("N144"));-invalid input. Should fail because the number of steps can only be two digits maximum
+assert(!isRouteWellFormed("w2+n3"));-invalid input. Should fail because the route string should not have any nonalphanumeric characters
+assert(!isRouteWellFormed("e1x"));-invalid input. Should fail because x is not a valid direction
+assert(navigateSegment(3, 1, 'N', 2) == 2);-valid input, it is possible to go two steps north from (3,1) with the given grid. Also use the other 3 directions(S,W,E) to see if those work as well
+assert(navigateSegment(-1,1,'N',2) == -1);-invalid input, (-1,1) is not in the grid
+assert(navigateSegment(3,1,'x',2) == -1);-invalid input, 'x' is not a valid direction
+assert(navigateSegment(3,1,'N',0) == 0); valid input, the program should not take any steps because maxSteps = 0
+assert(navigateSegment(3,1,'N',1)==1);-the program should only take one step max in direction 'N', not two or more
+assert(navigateSegment(3,1,'N',3)==2);-the edge of the grid is reached with two steps to the north so only two steps should be returned by the function, not three
+assert(navigateSegment(3,1,'E',3)==0);-a wall is directly to the east of (3,1) so 0 steps should be taken
+assert(navigateRoute(3,1, 3,4, "N2eE01n0s1S1e1w1e1W1e1", len) == 0  &&  len == 11);-should work, this tests multiple direction movement and gives step integer input from 0-2 characters so it also tests the extraction of these integers
+assert(navigateRoute(-1,1,3,4,"N2",len)==2)-(-1,1) is not a valid empty start position so 2 will be returned and len will be unchanged
+assert(navigateRoute(3,1,-3,4,"N2",len)==2)-(-3,4) is not a valid empty end position so 2 will be returned and len will be unchanged
+assert(navigateRoute(3,1,3,4,"e1x",len)==2)-"e1x" is not a valid route string because x isnt a valid direction so 2 will be returned and len will be unchanged
+assert(navigateRoute(3,1,3,4,"N2",len)==1 && len == 2)-moving two steps north from (3,1) causes the program to end up at (1,1), not (3,4) so 1 should be returned because (pr,pc) != (er,ec) where p is the final position after movement
+assert(navigateRoute(3,1,3,4,"E3",len)==3 && len == 0)-there is a wall to the east of the starting position, so it cannot move east which means it returns a 3 and len will equal 0
+assert(navigateRoute(3,1,3,1,"",len)==0 && len == 0)-empty string is a valid and navigable route
+setSize(20,20);
+len = -999;
+assert(navigateRoute(1,1,16,1,"S15",len)==0 && len == 15)-check if program properly moves a two digit number of steps

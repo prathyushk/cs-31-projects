@@ -1,0 +1,60 @@
+a. An obstacle I came across was coming up with a good algorithm for the split function that does not create another array. I also was not sure if the two sections of the array had to be in any particular order in order for the grader to see it as valid or if any permutation was valid. After reading the spec more closely, I realized I could just swap values and increment the position of the split and that would produce a valid output.
+
+b.
+string h[8] = { "bernie", "hillary", "donald", "jeb", "", "carly", "ben", "donald" };
+assert(lookup(h, 7, "carly") == 5); carly is at position 5 in the first 7 elements of h
+assert(lookup(h, 8, "donald") == 2); the first occurence of donald in 8 elements of h is at position 2
+assert(lookup(h, 2, "donald") == -1); donald does not exist in the first 2 elements of h
+assert(lookup(h, -4, "donald") == -1); length cannot be less than 0
+string h1[5] = { "addy", "donald", "donald", "donald", "donald" };
+assert(lookup(h1, 5, "donald") == 1); lookup should return the position of the first "donald" it finds
+assert(positionOfMax(h, 7) == 3); jeb is the word that comes last alphabetically in h and the string exists at position 3
+assert(positionOfMax(h, -7) == -1); length cannot be less than 0
+assert(positionOfMax(h1, 5) == 1); positionOfMax should return the smallest position of the string that comes alphabetically after all of the others 
+string g[4] = { "bernie", "hillary", "jeb", "carly" };
+assert(differ(h, 4, g, 4) == 2); the first position where h and g are different from each other is at 2 where h has donald and g has jeb
+assert(differ(h, -4, g, 4) == -1); length of h cannot be less than 0
+assert(differ(h, 4, g, -4) == -1); length of g cannot be less than 0
+assert(differ(h, 3, g, 2) == 2); since length of g is < length of h, and it should run out before it finds a different element, it should return the length of g
+assert(differ(h, 2, g, 3) == 2); since length of h is < length of g, and it should run out before it finds a different element, it should return the length of h
+assert(appendToAll(g, -4, "?") == -1); length cannot be less than 0
+assert(appendToAll(g, 0, "?") == 0 && g[0] == "bernie" && g[3] == "carly"); nothing will be appended to if the function considers 0 elements of the array
+assert(appendToAll(g, 4, "") == 4 && g[0] == "bernie" && g[3] == "carly"); an empty string is appended to the first four elements so the elements should be unchanged
+assert(appendToAll(g,-4,"no") == -1); appendToAll should not take a negative length so it returns -1
+assert(appendToAll(g, 4, "?") == 4 && g[0] == "bernie?" && g[3] == "carly?"); appendToAll should have added ? to the end of all the names in g
+assert(rotateLeft(g, 4, 5) == -1); pos must be less than the size of the array
+assert(rotateLeft(g, -4, 1) == -1); length cannot be less than 0
+assert(rotateLeft(g, 4, -5) == -1); pos has to be a valid index in the array
+assert(rotateLeft(g, 4, 3) == 3 && g[1] == "hillary?" && g[3] == "carly?"); rotating using the last position should leave the array unchanged
+assert(rotateLeft(g, 4, 1) == 1 && g[1] == "jeb?" && g[3] == "hillary?"); this function will move the string at position 1 to the end and shift everything that has a position greater than 1 to the left
+string e[5] = { "donald", "jeb", "", "carly", "bob" };
+assert(subsequence(h, 2, e, 4) == -1); e cannot be a subsequence of h if it is longer than h
+assert(subsequence(h, -7, e, 4) == -1); length of h cannot be less than 0
+assert(subsequence(h, 7, e, -4) == -1); length of e cannot be less than 0
+assert(subsequence(h, 7, e, 5) == -1); e with all of its elements is not contained within h
+assert(subsequence(h, 7, h, 7) == 0); h is a subsequence of itself starting at position 0
+assert(subsequence(h, 7, e, 4) == 2); the sequence e up to the 4th element starts at position 2 in h
+assert(subsequence(h, 0, e, 0) == 0); 0 elements of e is a subsequence of any sequence, even one with no elements
+string d[5] = { "hillary", "hillary", "hillary", "ben", "ben" };
+assert(countRuns(d, 5) == 2); there are two unique strings in d, "hillary" and "ben"
+assert(countRuns(d, -5) == -1); length cannot be less than 0
+assert(countRuns(d, 0) == 0); an array of size 0 should have zero runs
+string d1[1] = { "ben" }; 
+assert(countRuns(d, 1) == 1); an array of size 1 should only have one run
+string f[3] = { "jeb", "donald", "marco" };
+assert(lookupAny(h, 7, f, 3) == 2); h has donald at position 2 which is also contained in f and position 2 is the first position where h contains something in f
+assert(lookupAny(h, 0, f, 3) == -1); an array of length 0 does not contain anything in f
+assert(lookupAny(h, 7, f, 0) == -1); nothing in the first zero elements of f is contained in h
+assert(lookupAny(h, -7, f, 3) == -1); length of h cannot be less than 0
+assert(lookupAny(h, 7, f, -3) == -1); length of f cannot be less than 0
+string f1[2] = { "jeb", "donald" };
+string f2[2] = { "john", "ben" };
+assert(lookupAny(f1, 2, f2, 2) == -1); f1 does not contain anything that f2 has
+assert(flip(f, 3) == 3 && f[0] == "marco" && f[2] == "jeb"); flip will literally just flip it so marco will be in the beginning and jeb will be at the end
+assert(flip(f, -3) == -1); length cannot be less than 0
+string f1[4] = { "john", "jeb", "carly", "marco"};
+assert(flip(f1, 4) == 4 && f1[0] == "marco" && f1[1] == "carly" && f1[2] == "jeb"); flipping should work for an even number of elements too
+assert(split(h, 7, "carly") == 3 && h[3] == "carly"); there are 3 strings in h that do not come after "carly" alphabetically so the first string that comes after "carly" would be at position 3. Also the string "carly" comes after what is < "carly" and before what is after "carly" so it must be in between both groups
+assert(split(h, 0, "carly") == 0); in an empty array, there are 0 strings < "carly"
+assert(split(h, -5, "carly") == -1); length of h cannot be less than 0
+assert(split(h, 7, "zack") == 7); all of the strings in h are < "zack" so there is no position inside the array that is < "zack" so n is returned

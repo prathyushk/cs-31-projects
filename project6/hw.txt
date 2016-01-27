@@ -1,0 +1,161 @@
+1.
+
+a.
+
+int main()
+{
+	int arr[3] = { 5, 10, 15 };
+	int* ptr = arr;
+
+	*ptr = 30;
+	*(ptr + 1) = 20;
+	ptr += 2;
+	ptr[0] = 10;
+
+	while (ptr >= arr)
+	{
+		ptr--;
+		cout << *ptr << endl;
+	}
+}
+
+b.
+pToMax itself is passed by value so when the pointer is changed to point to something else inside the function, the address it points to does not change outside of it.
+void findMax(int arr[], int n, int*& pToMax)
+{
+	if(n <= 0)
+	     return;
+	pToMax = arr;
+	for(int i = 1; i < n; i++)
+	{
+		if(arr[i] > *pToMax)
+			  pToMax = arr + i;
+	}
+}
+
+c.
+ptr is uninitialized so it points to some arbitrary location in memory which would be outside of the program's accessible memory and will cause undefined behavior
+
+int main()
+{
+	int pointed = 0;
+	int* ptr = &pointed;
+	computeCube(5, ptr);
+	cout << "Five cubed is " << *ptr << endl;
+}
+
+d.
+Right now strequal compares pointers instead of the values that are pointed to by the pointers.
+
+bool strequal(const char str1[], const char str2[])
+{
+	while (*str1 != 0 && *str2 != 0)
+	{
+		if(*str1 != *str2)
+			 return false;
+		str1++;
+		str2++;
+	}
+	return *str1 == *str2;
+}
+
+e.
+getPtrToArray is returning a pointer to an array that only exists in the scope of getPtrToArray.
+
+2.
+
+a. double *cat;
+b. double mouse[5];
+c. cat = mouse + 4;
+d. *cat = 42;
+e. *(mouse + 3) = 25;
+f. cat -= 3;
+g. cat[1] = 17;
+h. cat[0] = 54;
+i. bool b = *cat == *(cat + 1);
+j. bool d = cat == mouse;
+
+3.
+
+a.
+double mean(const double* scores, int numScores)
+{
+	int i = 0;
+	double tot = 0;
+	while (i != numScores)
+	{
+		tot += *(scores + i);
+		i++;
+	}
+	return tot/numScores;
+}
+
+b.
+const char* findTheChar(const char* str, char chr)
+{
+	for (int k = 0; *(str + k) != 0; k++)
+	{
+		if(*(str + k) == chr)
+			 return str + k;
+	}
+	return nullptr;
+}
+
+c.
+const char* findTheChar(const char* str, char chr)
+{
+	while(*str != 0)
+	{
+		if(*str == chr)
+			return str;
+		str++;
+	}
+	return nullptr;
+}
+
+
+4.
+maxwell returns a pointer to array[0] because the value at a is 5 and the value at b is 4 and 5 > 4.
+Then, the program sets the value at array[0] to -1 and moves the pointer to the third element of array.
+Then, it sets the value that is pointed by the position of the pointer plus an offset of 1(fourth element of the array) to 9.
+The next line sets array[1] to 79.
+The first printed line is "3" because it is printing the distance between the 6th element of array and whatever ptr is pointing to which is the third element.
+The program then calls swap1 on a pointer to the first element of array and a pointer to the second element of the array which does nothing because the function only modifies the copies of the pointers because they are passed by value, not reference.
+When swap2 is called, the value pointed to by array is changed to the value pointed to by b which is the third element of the array which is currently 4. Then it sets the value pointed to by &array[2](the 3rd element of the array) to the value that was pointed to by array(until it was changed) which is -1.
+The last lines the program prints is:
+4
+79
+-1
+9
+22
+19
+
+so overall, the output will be:
+3
+4
+79
+-1
+9
+22
+19
+
+5.
+void removeS(char* str)
+{
+	char* shiftPointer;
+	while(*str != 0)
+	{
+		if(*str == 's' || *str == 'S')
+		{
+			shiftPointer = str;
+			while(*shiftPointer != 0)
+			{
+				*(shiftPointer) = *(shiftPointer + 1);
+				shiftPointer++;
+			}
+		}
+		else
+			str++;
+	}
+}
+

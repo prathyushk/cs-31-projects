@@ -1,0 +1,24 @@
+STEP 5
+--------------------
+I inputted numbers that would cause errors such as 0 surveyed, 0 keep and 0 refund. This would produce values of 0/0 for the percentages which the computer displays as nan%.
+
+I also inputted values that would generate percentages above 100% which does not make sense in the context of the program. Some other nonsensical output I generated was percentages that added up to more than 100%.
+
+Finally, the last thing I used to produce output that does not make sense is input negative numbers.
+
+
+STEP 6
+--------------------
+To create a logic error, I changed the comparison in the if statement to compare numKeep with numRefund from > to <. This causes the program to output the opposite result from what is true(it would say more people will keep their car than demand a refund even if the percentage of people keeping their car is less than the percentage of people demanding a refund).
+
+
+STEP 7
+--------------------
+The two mistakes I introduced that would create compiler errors were:
+
+1. removed the declaration for  numberSurveyed
+2. removed semicolon from line 26, after "cout << endl"
+
+The compiler complained about every single reference of 'numberSurveyed' and gave and error for every single one saying 'use of undeclared identifier' which means that it doesn’t know what the variable numberSurveyed is. In C++, its is necessary to declare a variable with its data type before using it otherwise the compiler will not know what to do with the variable. This is a mistake that could be made relatively often by a python veteran who is new to other languages because python does not require declaration and the interpreter will figure out the type itself.
+
+For the second mistake, the compiler just said it expected a ';' after the line I removed the semicolon on.

@@ -1,0 +1,64 @@
+a. One obstacle was finding a clean algorithm for calculating rocks and pebbles. Initially, I had a different method but that method failed in a very specific case. Instead of trying to fix that case which would have made the method unwieldy, I used a completely different method of finding rocks and pebbles.
+
+b.
+The main function does all of the game statistics calculations, sets up the game by loading words, finding a random word for each round and gives the user the relevant information before and after every round.
+
+main
+-----------------------
+load all the words from the word file and make sure that words were loaded
+ask for how many rounds to play and make sure that its a positive number
+for every round:
+    tell user what round it is
+    select a secret word and tell user how long it is
+    handle the probing for the round
+    tell user how many tries it took them to get the word
+    tell user the statistics for the round(s) (average, minimum, maximum)
+-----------------------
+
+manageOneRound is called by main and handles the probing for each round
+
+manageOneRound
+-----------------------
+make sure arguments are valid
+loop infinitely:
+     ask for a probe word
+     checks if the probe word is a word of 4 to 6 lower case characters
+     checks if the probe word exists in the word list
+     increments number of tries
+     counts all the rocks and pebbles in the probe word
+     checks if the probe word is the secret word and returns if true
+     tell user how many rocks and pebbles the word has
+-----------------------
+
+isValid is called by manageOneRound and checks if a word consists of only lower case characters and is 4-6 characters long
+
+isValid
+-----------------------
+for each character in word:
+    it's not valid if the character isn't a lowercase letter
+it's not valid if the word is longer than 6 characters or shorter than 4
+it is valid
+-----------------------
+
+exists is called by manageOneRound and checks if a word is contained in the word list
+
+exists
+-----------------------
+for each word in the word list:
+    check if the word is the same as the word in the argument
+the word was not found in the list
+-----------------------
+
+findRocksAndPebbles is called by manageOneRound and tells it how many rocks and pebbles are in the guess word
+
+findRocksAndPebbles
+-----------------------
+for every character in the secret word:
+    make sure we're not at the end of guess
+    if guess has the same character at the same position as in secret, there is a rock and mark this location for both guess and secret because we can ignore them now
+for every character in the secret word:
+    make sure this character hasn't been marked
+    for every character in guess:
+    	make sure the character in guess isn't marked
+	if the character in secret is the same as the character in guess, we found a pebble and we must mark these two characters
+------------------------

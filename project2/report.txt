@@ -1,0 +1,17 @@
+a.
+The biggest obstacle I had was deciding whether to use helper functions or not such as one  to calculate the royalties. In the end I decided not to because we have not gone over them in class yet. Otherwise, the program was straightforward. I just had to make sure I didn't mistype input when I was testing the program.
+
+b.
+Negative number of units(-100,"movie",5.00,"n")
+Empty title(100,"",5.00,"n")
+Negative base price(100,"movie",-5.00,"n")
+Invalid input for premium status(100,"movie",5.00,"no")
+Correct royalty calculation for nonpremium <=400 units(400,"movie",5.00,"n")
+Correct royalty calculation for premium <=400 units(400,"movie",5.00,"n")
+Correct royalty calculation for nonpremium 400 < x <= 1200(1200,"movie",5.00,"n")
+Correct royalty calculation for premium 400 < x <= 1200(1200, "movie",5.00,"y")
+Correct royalty calculation for nonpremium >1200(1500,"movie",5.00,"n")
+Correct royalty calculation for premium >1200(1500,"movie",5.00,"y")
+Correctly formatted output(two decimal points even with a trailing 0)(200,"movie",15.90,"n")
+
+My program works for all of these test cases
