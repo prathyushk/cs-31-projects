@@ -7,4 +7,5 @@ maze.o: maze.cpp
 	$(CC) -c maze.cpp
 grid.o: grid.cpp
 	$(CC) -c grid.cpp
-clean: $(RM) *.o maze
+clean:
+	$(RM) *.o maze
